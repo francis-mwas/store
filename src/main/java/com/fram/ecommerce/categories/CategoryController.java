@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PostUpdate;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,7 +23,7 @@ public class CategoryController {
         List<Category> categories = categoryService.getCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
-
+    @PostMapping("/create-category")
     public ResponseEntity<ResponseHelper>createNewCategory(@RequestBody Category category){
         if(Objects.nonNull(categoryService.getCategoryByNAme(category.getCategoryName()))){
             return new ResponseEntity<>(new ResponseHelper(false, "This category already exists"), HttpStatus.CONFLICT);
@@ -30,7 +31,7 @@ public class CategoryController {
        categoryService.createNewCategory(category);
         return new ResponseEntity<>(new ResponseHelper(true, "New category added successfully"), HttpStatus.CREATED);
     }
-
+    @PostMapping("/update-category")
     public ResponseEntity<ResponseHelper>updateCategory(@RequestBody Category category, @PathVariable Integer catId){
         if(Objects.nonNull(categoryService.getCategoryById(catId))){
            categoryService.updateCategory(catId, category);
