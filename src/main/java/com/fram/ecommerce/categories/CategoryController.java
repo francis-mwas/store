@@ -17,7 +17,10 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-
+    @GetMapping("/hello")
+    public String hello(){
+        return "Hellow world";
+    }
     @GetMapping("/")
     public ResponseEntity<List<Category>> getAllCategories(){
         List<Category> categories = categoryService.getCategories();
