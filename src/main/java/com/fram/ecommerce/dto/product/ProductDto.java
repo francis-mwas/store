@@ -1,43 +1,34 @@
-package com.fram.ecommerce.products;
+package com.fram.ecommerce.dto.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fram.ecommerce.categories.Category;
+import com.fram.ecommerce.products.Product;
 import com.sun.istack.NotNull;
 
-import javax.persistence.*;
-
-
-
-@Entity
-@Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductDto {
     private Integer id;
-
     private @NotNull String name;
     private @NotNull String imageURL;
     private @NotNull double price;
     private @NotNull String description;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
-    Category category;
+    private @NotNull Integer categoryId;
 
 
-    public Product(String name, String imageUrl, double price, String description, Category category) {
+    public ProductDto(String name, String imageURL, double price, String description, Integer categoryId) {
         this.name = name;
-        this.imageURL = imageUrl;
+        this.imageURL = imageURL;
         this.price = price;
         this.description = description;
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
-    public Product() {
-
+    public ProductDto(Product product) {
+        this.setId(product.getId());
+        this.setName(product.getName());
+        this.setImageURL(product.getImageURL());
+        this.setDescription(product.getDescription());
+        this.setPrice(product.getPrice());
+        this.setCategoryId(product.getCategory().getId());
     }
+
 
     public Integer getId() {
         return id;
@@ -79,11 +70,13 @@ public class Product {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }
+
+
